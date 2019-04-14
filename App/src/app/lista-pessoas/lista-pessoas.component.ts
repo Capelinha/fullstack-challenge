@@ -3,6 +3,8 @@ import {PessoaModel} from "../shared/models/pessoa.model";
 
 import {Chart} from 'chart.js';
 import {delay} from "q";
+import {take} from "rxjs/operators";
+import {PessoaService} from "../shared/services/pessoa.service";
 
 @Component({
   selector: 'lista-pessoas',
@@ -14,11 +16,12 @@ export class ListaPessoasComponent implements OnInit {
   //@ViewChild('grafico')
   elGrafico: ElementRef;
   grafico: Chart;
-  pessoas: PessoaModel[] = [{id : "hhnOHFuhwhifhiIHFAW", nome : "Mateus", sobrenome : "Igreja", participacao : 10}];
+  pessoas: PessoaModel[];
 
-  constructor() { }
+  constructor(private pessoaService: PessoaService) { }
 
   ngOnInit() {
+    this.obterDados();
   }
 
   //Disparar criação do grafico assim que o canvas for exibido na tela
@@ -27,6 +30,24 @@ export class ListaPessoasComponent implements OnInit {
     this.elGrafico = el;
     this.criarGrafico();
   };
+
+  obterDados() {
+    this.pessoaService.getAll()
+      .pipe(take(1))
+      .subscribe((e) => {
+        this.pessoas =  e ;
+        this.atualizarGrafico();
+      });
+  }
+
+  atualizarGrafico() {
+    this.grafico.config.data.labels = this.pessoas.map((pessoa) => `${pessoa.nome} ${pessoa.sobrenome}`);
+    this.grafico.config.data.datasets = [{
+      data : this.pessoas.map((pessoa) => pessoa.participacao),
+      backgroundColor: this.pessoas.map( () => this.getRandomColor())
+    }];
+    this.grafico.update();
+  }
 
   criarGrafico() {
     const ctx = this.elGrafico.nativeElement.getContext('2d');
