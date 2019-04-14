@@ -8,8 +8,9 @@ import {PessoaModel} from "../shared/models/pessoa.model";
 })
 export class ListaPessoasComponent implements OnInit {
 
-  pessoas: PessoaModel[] = [{id : "hhnOHFuhwhifhiIHFAW", nome : "Mateus", sobrenome : "Igreja", participacao : 10}];
-
+  //pessoas: PessoaModel[] = [{id : "hhnOHFuhwhifhiIHFAW", nome : "Mateus", sobrenome : "Igreja", participacao : 10}];
+  pessoas: PessoaModel[];
+  
   constructor() { }
 
   ngOnInit() {

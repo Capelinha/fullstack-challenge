@@ -9,8 +9,20 @@
     </div>
   </div>
 
-  <!--Linha exibicao-->
-  <div class="row" *ngIf="pessoas">
+  <!--Spinner carregamento-->
+  <ng-template #carregando>
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center">
+        <!--Spinner-->
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!--Linha exibicao - Caso não tenha carregado registros, mostrar spinner-->
+  <div class="row" *ngIf="pessoas; else carregando">
     <!--Coluna para tabela-->
     <div class="col-md-6">
       <!--Tabela-->
