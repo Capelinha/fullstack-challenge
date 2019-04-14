@@ -1,56 +1,55 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {PessoaModel} from "../shared/models/pessoa.model";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
+import {PessoaModel} from '../shared/models/pessoa.model';
 import {Chart} from 'chart.js';
-import {delay} from "q";
-import {take} from "rxjs/operators";
-import {PessoaService} from "../shared/services/pessoa.service";
+import {take} from 'rxjs/operators';
+import {PessoaService} from '../shared/services/pessoa.service';
+import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'lista-pessoas',
+  selector: 'app-lista-pessoas',
   templateUrl: './lista-pessoas.component.html',
   styleUrls: ['./lista-pessoas.component.css']
 })
-export class ListaPessoasComponent implements OnInit {
+export class ListaPessoasComponent implements OnInit, OnDestroy {
 
-  //@ViewChild('grafico')
+  @ViewChild('grafico')
   elGrafico: ElementRef;
   grafico: Chart;
   pessoas: PessoaModel[];
+  inscAlteracao: Subscription;
 
   constructor(private pessoaService: PessoaService) { }
 
   ngOnInit() {
     this.obterDados();
+    this.inscAlteracao = this.pessoaService.emitirAlteracao.subscribe((e) => this.obterDados());
   }
 
-  //Disparar criação do grafico assim que o canvas for exibido na tela
-  @ViewChild('grafico')
-  set elementoGrafico(el: ElementRef) {
-    this.elGrafico = el;
-    this.criarGrafico();
-  };
+  ngOnDestroy() {
+    this.inscAlteracao.unsubscribe();
+  }
 
   obterDados() {
     this.pessoaService.getAll()
       .pipe(take(1))
       .subscribe((e) => {
         this.pessoas =  e ;
-        this.atualizarGrafico();
+
+        const i = setInterval(() => {
+          if (this.elGrafico != null && this.pessoas != null) {
+            clearInterval(i);
+            this.criarGrafico();
+          }
+        }, 100);
+
       });
   }
 
-  atualizarGrafico() {
-    this.grafico.config.data.labels = this.pessoas.map((pessoa) => `${pessoa.nome} ${pessoa.sobrenome}`);
-    this.grafico.config.data.datasets = [{
-      data : this.pessoas.map((pessoa) => pessoa.participacao),
-      backgroundColor: this.pessoas.map( () => this.getRandomColor())
-    }];
-    this.grafico.update();
-  }
-
   criarGrafico() {
-    const ctx = this.elGrafico.nativeElement.getContext('2d');
+    if (this.grafico != null) {
+      this.grafico.destroy();
+    }
 
     const dados = {
       datasets: [{
@@ -63,34 +62,45 @@ export class ListaPessoasComponent implements OnInit {
 
     const opcoes = {
       aspectRatio : 1.7,
+      maintainAspectRatio : true,
+      onResize : (chart, size) => {
+        if (window.innerWidth < 1000) {
+          chart.config.options.legend.position = 'top';
+          chart.config.options.maintainAspectRatio = false;
+          chart.update();
+        } else {
+          chart.config.options.legend.position = 'right';
+          chart.config.options.maintainAspectRatio = true;
+          chart.update();
+        }
+      },
       legend: {
         position: 'right',
+        margins : {
+          bottom : 20
+        },
         labels: {
           fontSize : 14,
           fontStyle : 'bold',
           boxWidth : 14
         }
       },
-      layout: {
-        padding: {
-          left: 5,
-          right: 5,
-          top: 10,
-          bottom: 10
-        }
-      }
     };
 
-    if (window.innerWidth < 550) {
+    if (dados.labels.length > 10) {
       opcoes.legend.position = 'top';
-      opcoes.aspectRatio = 1;
+      opcoes.maintainAspectRatio = false;
     }
+
+    const ctx = this.elGrafico.nativeElement.getContext('2d');
 
     this.grafico = new Chart(ctx, {
       type: 'doughnut',
       data: dados,
       options: opcoes
     });
+
+    this.grafico.canvas.parentNode.style.height = '450px';
 
   }
 

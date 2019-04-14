@@ -8,3 +8,8 @@ th{
   overflow: hidden;
   white-space: nowrap;
 }
+
+canvas{
+  margin-top: 20px;
+  max-height: 100%;
+}
