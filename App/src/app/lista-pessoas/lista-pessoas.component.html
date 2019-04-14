@@ -8,4 +8,42 @@
       <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
     </div>
   </div>
+
+  <!--Linha exibicao-->
+  <div class="row" *ngIf="pessoas">
+    <!--Coluna para tabela-->
+    <div class="col-md-6">
+      <!--Tabela-->
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col" class="text-md-center"> </th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col" class="text-md-center">Participation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--Caso não econtrar registros-->
+        <td colspan="4" class="text-md-center" *ngIf="pessoas.length === 0">
+          No Records Found :)
+        </td>
+        <!--Criação das linhas da tabela-->
+        <tr *ngFor="let pessoa of pessoas">
+          <th scope="row" class="text-md-center ellipsis">{{pessoa.id}}...</th>
+          <td>{{pessoa.nome}}</td>
+          <td>{{pessoa.sobrenome}}</td>
+          <td class="text-md-center">{{pessoa.participacao}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--Coluna grafico-->
+    <div class="col-md-6 mx-auto">
+      <!--Grafico-->
+      <canvas #grafico> </canvas>
+    </div>
+
+  </div>
 </div>

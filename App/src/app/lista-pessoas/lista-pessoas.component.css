@@ -1,0 +1,10 @@
+th{
+  word-break: break-word;
+}
+
+.ellipsis {
+  max-width: 50px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
