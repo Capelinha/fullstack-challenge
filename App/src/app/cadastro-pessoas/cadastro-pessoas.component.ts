@@ -24,6 +24,16 @@ export class CadastroPessoasComponent implements OnInit {
     });
   }
 
+  validar(campo: string) {
+    if (this.formCadastro.controls[campo].touched || this.formCadastro.controls[campo].dirty ) {
+      if (this.formCadastro.controls[campo].invalid) {
+        return 'is-invalid';
+      } else {
+        return 'is-valid';
+      }
+    }
+  }
+
   cadastrar() {
 
   }
