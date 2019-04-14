@@ -60,6 +60,11 @@ export class ListaPessoasComponent implements OnInit {
       }
     };
 
+    if (window.innerWidth < 550) {
+      opcoes.legend.position = 'top';
+      opcoes.aspectRatio = 1;
+    }
+
     this.grafico = new Chart(ctx, {
       type: 'doughnut',
       data: dados,
