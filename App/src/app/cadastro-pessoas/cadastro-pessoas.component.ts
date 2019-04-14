@@ -12,4 +12,8 @@ export class CadastroPessoasComponent implements OnInit {
   ngOnInit() {
   }
 
+  cadastrar() {
+
+  }
+
 }

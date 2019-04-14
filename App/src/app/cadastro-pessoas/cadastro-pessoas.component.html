@@ -1,3 +1,37 @@
-<p>
-  cadastro-pessoas works!
-</p>
+<!--Caixa 100% da largura-->
+<div id="cadastro">
+  <!--Container com 100% da altura-->
+  <div class="container h-100">
+    <!--Linha com 100% da altura-->
+    <div class="row h-100">
+      <!--Coluna do tamanho da tela-->
+      <div class="col-12 my-auto">
+        <!--Form-->
+        <form (submit)="cadastrar()">
+          <!--Linha do form-->
+          <div class="form-row form-res">
+            <!--Coluna do inputs do form-->
+            <div class="col">
+              <!--Input-->
+              <input type="text" formControlName="nome" id="nome" value="" class="form-control border-2" placeholder="First name" />
+              <!--Dica para campo invalido-->
+              <div class="invalid-tooltip">Required field</div>
+            </div>
+            <div class="col">
+              <input type="text" formControlName="sobrenome" id="sobrenome" value="" class="form-control border-2" placeholder="Last name" />
+              <div class="invalid-tooltip">Required field</div>
+            </div>
+            <div class="col">
+              <input type="number" formControlName="participacao" id="participacao" value="" class="form-control border-2" placeholder="Participation" />
+              <div class="invalid-tooltip">Required numerical field</div>
+            </div>
+            <div class="col-2">
+              <!--Botão submit-->
+              <button	type="submit"	class="btn btn-outline-light border-2 font-weight-bold w-100 h-100">SEND</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
