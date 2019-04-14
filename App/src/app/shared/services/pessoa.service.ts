@@ -18,6 +18,6 @@ export class PessoaService {
   }
 
   save(pessoa: PessoaModel){
-    this.http.post(this.endpoint, JSON.stringify(pessoa));
+    return this.http.post(this.endpoint, JSON.stringify(pessoa));
   }
 }

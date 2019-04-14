@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {PessoaService} from "../shared/services/pessoa.service";
+import {PessoaModel} from "../shared/models/pessoa.model";
 
 @Component({
   selector: 'cadastro-pessoas',
@@ -10,7 +12,7 @@ export class CadastroPessoasComponent implements OnInit {
 
   formCadastro: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private pessoaService: PessoaService) { }
 
   ngOnInit() {
     this.criarForm();
@@ -33,7 +35,15 @@ export class CadastroPessoasComponent implements OnInit {
   }
 
   cadastrar() {
+    //Forçar validação dos campos
+    Object.keys(this.formCadastro.controls).forEach(key => {
+      this.formCadastro.get(key).markAsDirty();
+    });
 
+    if (this.formCadastro.valid) {
+      this.pessoaService.save(this.formCadastro.value).subscribe(null);
+      this.criarForm();
+    }
   }
 
 }
