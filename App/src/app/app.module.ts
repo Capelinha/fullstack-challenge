@@ -5,6 +5,10 @@ import { AppComponent } from './app.component';
 import { ListaPessoasComponent } from './lista-pessoas/lista-pessoas.component';
 import { CadastroPessoasComponent } from './cadastro-pessoas/cadastro-pessoas.component';
 
+import {PessoaService} from "./shared/services/pessoa.service";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -12,9 +16,12 @@ import { CadastroPessoasComponent } from './cadastro-pessoas/cadastro-pessoas.co
     CadastroPessoasComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [PessoaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
