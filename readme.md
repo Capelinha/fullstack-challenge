@@ -6,6 +6,10 @@
 
 The objective of this challenge is to evaluate your domain in fullstack development: its organization, style and good practices with code, APIs creation, frameworks knowledge and technologies.
 
+## Demo build
+
+<https://capelinha.github.io/fullstack-challenge/>
+
 ## Rules
 
 1. Your code should be made available in a public or private repository, on your personal github or bitbucket;
