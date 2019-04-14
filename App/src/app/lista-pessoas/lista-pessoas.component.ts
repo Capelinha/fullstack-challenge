@@ -87,7 +87,7 @@ export class ListaPessoasComponent implements OnInit, OnDestroy {
       },
     };
 
-    if (dados.labels.length > 10) {
+    if (dados.labels.length > 10 || window.innerWidth < 750) {
       opcoes.legend.position = 'top';
       opcoes.maintainAspectRatio = false;
     }
