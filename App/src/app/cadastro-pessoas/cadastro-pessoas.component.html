@@ -11,16 +11,16 @@
             <!--Coluna do inputs do form-->
             <div class="col">
               <!--Input-->
-              <input type="text" formControlName="nome"  id="nome" value="" [ngClass]="validar('nome')" class="form-control border-2" placeholder="First name" />
+              <input type="text" formControlName="nome"  id="nome" value="" [ngClass]="validarCampo('nome')" class="form-control border-2" placeholder="First name" />
               <!--Dica para campo invalido-->
               <div class="invalid-tooltip">Required field</div>
             </div>
             <div class="col">
-              <input type="text" formControlName="sobrenome" id="sobrenome" value="" [ngClass]="validar('sobrenome')" class="form-control border-2" placeholder="Last name" />
+              <input type="text" formControlName="sobrenome" id="sobrenome" value="" [ngClass]="validarCampo('sobrenome')" class="form-control border-2" placeholder="Last name" />
               <div class="invalid-tooltip">Required field</div>
             </div>
             <div class="col">
-              <input type="number" formControlName="participacao" id="participacao" value="" [ngClass]="validar('participacao')" class="form-control border-2" placeholder="Participation" />
+              <input type="number" formControlName="participacao" id="participacao" value="" [ngClass]="validarCampo('participacao')" class="form-control border-2" placeholder="Participation" />
               <div class="invalid-tooltip">Required numerical field</div>
             </div>
             <div class="col-2">
