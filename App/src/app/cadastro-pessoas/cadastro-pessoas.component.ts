@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'cadastro-pessoas',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastroPessoasComponent implements OnInit {
 
-  constructor() { }
+  formCadastro: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.criarForm();
+  }
+
+  criarForm() {
+    this.formCadastro = this.fb.group({
+      nome : ['', Validators.required],
+      sobrenome : ['', Validators.required],
+      participacao : ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
+    });
   }
 
   cadastrar() {
