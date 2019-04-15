@@ -1,0 +1,196 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The objective of this challenge is to evaluate your domain in fullstack development: its organization, style and good practices with code, APIs creation, frameworks knowledge and technologies.",
+    "version": "1.0.0",
+    "title": "{\"developer\": \"fullstack\"}",
+    "contact": {
+      "email": "dev@cubo.network"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "k92gnvpow4.execute-api.us-east-2.amazonaws.com",
+  "basePath": "/beta",
+  "tags": [
+    {
+      "name": "pessoas",
+      "description": "Participação de pessoas em alguma coisa",
+      "externalDocs": {
+        "description": "GitHub",
+        "url": "https://github.com/Capelinha/fullstack-challenge"
+      }
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/pessoas": {
+      "get": {
+        "tags": [
+          "pessoas"
+        ],
+        "summary": "Obter todas as pessoas",
+        "description": "Retornar todas as pessoas cadastradas",
+        "operationId": "getPessoaById",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "204": {
+            "description": "Nenhum conteúdo"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "pessoas"
+        ],
+        "summary": "Adiciona uma nova pessoa a base de dados",
+        "description": "",
+        "operationId": "addPessoa",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto da pessoa a ser inserida",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pessoa"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "pessoas"
+        ],
+        "summary": "Update an existing people",
+        "description": "",
+        "operationId": "updatePessoa",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "People object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pessoa"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Pessoa não econtrada"
+          },
+          "405": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/pessoas/{id}": {
+      "get": {
+        "tags": [
+          "pessoas"
+        ],
+        "summary": "Encontrar uma pessoa por ID",
+        "description": "Retornar uma pessoa especifica",
+        "operationId": "getPessoa",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da pessoa a ser retornada",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "204": {
+            "description": "Pessoa não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "pessoas"
+        ],
+        "summary": "Deletar uma pessoa",
+        "description": "",
+        "operationId": "deletePessoa",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da pessoa a ser deletada",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Pessoa não encontrada"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Pessoa": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "sobrenome": {
+          "type": "string"
+        },
+        "participacao": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
