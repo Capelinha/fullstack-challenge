@@ -11,7 +11,6 @@ import {map} from 'rxjs/operators';
 export class PessoaService {
 
   private readonly URL: string = 'https://k92gnvpow4.execute-api.us-east-2.amazonaws.com/beta/pessoa';
-  emitirAlteracao: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private http: HttpClient) { }
 

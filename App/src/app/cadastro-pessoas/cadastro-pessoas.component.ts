@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PessoaService} from '../shared/services/pessoa.service';
 import {PessoaModel} from '../shared/models/pessoa.model';
@@ -9,15 +9,20 @@ import {take} from 'rxjs/operators';
   templateUrl: './cadastro-pessoas.component.html',
   styleUrls: ['./cadastro-pessoas.component.css']
 })
-export class CadastroPessoasComponent implements OnInit {
+export class CadastroPessoasComponent implements OnInit, OnDestroy {
 
   formCadastro: FormGroup;
   @Output() salvarEvento: EventEmitter<PessoaModel> = new EventEmitter<PessoaModel>();
 
-  constructor(private fb: FormBuilder, private pessoaService: PessoaService) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.criarForm();
+  }
+
+  // Completar evento ao destruir o componente
+  ngOnDestroy() {
+    this.salvarEvento.complete();
   }
 
   criarForm() {
@@ -44,10 +49,9 @@ export class CadastroPessoasComponent implements OnInit {
     });
 
     if (this.formCadastro.valid) {
-
       this.salvarEvento.emit(this.formCadastro.value);
       // Limpar form
-      this.criarForm();
+      this.formCadastro.reset();
     }
   }
 
