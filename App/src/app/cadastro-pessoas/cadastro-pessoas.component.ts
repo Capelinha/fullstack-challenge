@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PessoaService} from '../shared/services/pessoa.service';
 import {PessoaModel} from '../shared/models/pessoa.model';
@@ -12,6 +12,7 @@ import {take} from 'rxjs/operators';
 export class CadastroPessoasComponent implements OnInit {
 
   formCadastro: FormGroup;
+  @Output() salvarEvento: EventEmitter<PessoaModel> = new EventEmitter<PessoaModel>();
 
   constructor(private fb: FormBuilder, private pessoaService: PessoaService) { }
 
@@ -43,14 +44,10 @@ export class CadastroPessoasComponent implements OnInit {
     });
 
     if (this.formCadastro.valid) {
-      this.pessoaService.save(this.formCadastro.value);
 
-      // Se a insersão for sucesso, recriar form limpo
-      this.pessoaService.emitirAlteracao.pipe(take(1)).subscribe((e) => {
-        if (e) {
-          this.criarForm();
-        }
-      });
+      this.salvarEvento.emit(this.formCadastro.value);
+      // Limpar form
+      this.criarForm();
     }
   }
 

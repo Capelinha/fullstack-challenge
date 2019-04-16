@@ -1,5 +1,6 @@
-<app-cadastro-pessoas> </app-cadastro-pessoas>
 
-<app-lista-pessoas> </app-lista-pessoas>
+<app-cadastro-pessoas (salvarEvento)="salvar($event)" > </app-cadastro-pessoas>
+
+<app-lista-pessoas [pessoas]="pessoas" > </app-lista-pessoas>
 
 

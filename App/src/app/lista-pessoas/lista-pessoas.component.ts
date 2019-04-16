@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 
 import {PessoaModel} from '../shared/models/pessoa.model';
 import {Chart, ChartType} from 'chart.js';
@@ -11,7 +11,9 @@ import {Subscription} from 'rxjs';
   templateUrl: './lista-pessoas.component.html',
   styleUrls: ['./lista-pessoas.component.css']
 })
-export class ListaPessoasComponent implements OnInit, OnDestroy {
+
+export class ListaPessoasComponent implements OnInit {
+  // Pessoas
   pessoas: PessoaModel[];
   // Dados grafico
   labels: string[];
@@ -36,28 +38,19 @@ export class ListaPessoasComponent implements OnInit, OnDestroy {
       }
     },
   };
-  // Evento cadastro
-  inscAlteracao: Subscription;
 
-  constructor(private pessoaService: PessoaService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.obterDados();
-    this.inscAlteracao = this.pessoaService.emitirAlteracao.subscribe((e) => this.obterDados());
   }
 
-  ngOnDestroy() {
-    this.inscAlteracao.unsubscribe();
-  }
-
-  obterDados() {
-    this.pessoaService.getAll()
-      .pipe(take(1))
-      .subscribe((e) => {
-        this.pessoas = e;
-        this.labels = e.map((p) => p.nome);
-        this.dados = e.map((p) => p.participacao);
-      });
+  @Input('pessoas')
+  set setPessoas(value: PessoaModel[]) {
+    if (value != null) {
+      this.pessoas = value;
+      this.labels = value.map((p) => p.nome);
+      this.dados = value.map((p) => p.participacao);
+    }
   }
 
   onHoverGrafico(e) {
@@ -67,4 +60,5 @@ export class ListaPessoasComponent implements OnInit, OnDestroy {
   onLeaveGrafico(e) {
     this.pessoaSelecionada = null;
   }
+
 }
