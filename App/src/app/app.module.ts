@@ -8,6 +8,7 @@ import { CadastroPessoasComponent } from './cadastro-pessoas/cadastro-pessoas.co
 import {PessoaService} from './shared/services/pessoa.service';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
+
   ],
   providers: [PessoaService],
   bootstrap: [AppComponent]

@@ -41,7 +41,7 @@
           No Records Found :)
         </td>
         <!--Criação das linhas da tabela-->
-        <tr *ngFor="let pessoa of pessoas">
+        <tr *ngFor="let pessoa of pessoas" [ngClass]="{'table-info' : pessoa.id == pessoaSelecionada}" >
           <th scope="row" class="text-md-center ellipsis">{{pessoa.id}}...</th>
           <td>{{pessoa.nome}}</td>
           <td>{{pessoa.sobrenome}}</td>
@@ -54,7 +54,15 @@
     <!--Coluna grafico-->
     <div class="col-md-6 mx-auto" id="grafico">
       <!--Grafico-->
-      <canvas #grafico> </canvas>
+      <!--<canvas #grafico> </canvas>-->
+      <canvas baseChart
+              [data]="dados"
+              [labels]="labels"
+              [chartType]="doughnutChartType"
+              [options]="opcoes"
+              (chartHover)="onHoverGrafico($event)"
+              (mouseleave)="onLeaveGrafico($event)">
+      </canvas>
     </div>
 
   </div>
