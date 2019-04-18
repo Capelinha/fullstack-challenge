@@ -1,0 +1,108 @@
+# Happy Coding!
+
+service: aws-nodejs # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  apiName: "{ \"developer\": \"fullstack\" }"
+  region: us-east-1
+  api keys:
+    None
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:DeleteItem
+        - dynamodb:Query
+        - dynamodb:UpdateItem
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource:
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMO_TABLE}"
+        - "arn:aws:logs:*:*:*"
+  environment:
+    DYNAMO_TABLE: pessoas
+    AWS_DEPLOY_REGION: ${self:provider.region}
+
+# you can add packaging information here
+#package:
+#  include:
+#    - include-me.js
+#    - include-me-dir/**
+#  exclude:
+#    - exclude-me.js
+#    - exclude-me-dir/**
+
+functions:
+  getPessoas:
+    handler: src/getPessoas.getPessoas
+    events:
+      - http:
+          path: pessoas
+          method: get
+          cors: true
+  getPessoa:
+    handler: src/getPessoa.getPessoa
+    events:
+      - http:
+          path: pessoas/{id}
+          method: get
+          cors: true
+          request:
+            parameters:
+                paths:
+                  id: true
+  postPessoas:
+    handler: src/postPessoa.postPessoa
+    events:
+      - http:
+          path: pessoas
+          method: post
+          cors: true
+  putPessoa:
+    handler: src/putPessoa.putPessoa
+    events:
+      - http:
+          path: pessoas/{id}
+          method: put
+          cors: true
+          request:
+            parameters:
+                paths:
+                  id: true
+  deletePessoa:
+    handler: src/deletePessoa.deletePessoa
+    events:
+      - http:
+          path: pessoas/{id}
+          method: delete
+          cors: true
+          request:
+            parameters:
+                paths:
+                  id: true
+          
+resources:
+  Resources:
+    PessoasDynamoDB:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: pessoas
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1 
+
+plugins:
+  - serverless-offline
