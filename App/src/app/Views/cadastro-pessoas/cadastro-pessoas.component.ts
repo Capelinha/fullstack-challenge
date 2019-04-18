@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {PessoaService} from '../shared/services/pessoa.service';
-import {PessoaModel} from '../shared/models/pessoa.model';
+import {PessoaService} from '../../services/pessoa.service';
+import {PessoaModel} from '../../models/pessoa.model';
 import {take} from 'rxjs/operators';
 
 @Component({

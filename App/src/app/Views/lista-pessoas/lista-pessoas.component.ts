@@ -1,9 +1,9 @@
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 
-import {PessoaModel} from '../shared/models/pessoa.model';
+import {PessoaModel} from '../../models/pessoa.model';
 import {Chart, ChartType} from 'chart.js';
 import {take} from 'rxjs/operators';
-import {PessoaService} from '../shared/services/pessoa.service';
+import {PessoaService} from '../../services/pessoa.service';
 import {Subscription} from 'rxjs';
 
 @Component({
