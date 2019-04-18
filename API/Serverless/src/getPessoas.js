@@ -11,10 +11,21 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 module.exports.getPessoas = async (event, context) => {
 	return await new Promise((resolve, reject) => {
 		dynamoDb.scan({ TableName: DYNAMO_TABLE}, (err,res) => {
+		  const resp = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin' : '*'
+        }
+      };
+
 			if(err){
-				resolve({statusCode: 400, error: `Could not list all data: ${err.stack}`});
+        resp['statusCode'] = 400;
+        resp['error'] = `Could not list all data: ${err.stack}`;
+        resolve(resp);
 			}else{
-				resolve({statusCode: 200, body: JSON.stringify(res.Items)});
+        resp['statusCode'] = 200;
+        resp['body'] = JSON.stringify(res.Items);
+				resolve(resp);
 			}
 		});			
 	});

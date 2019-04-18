@@ -37,10 +37,21 @@ module.exports.postPessoa = async (event, context) => {
     };
 
 		dynamoDb.put({"Item" : dados, TableName: DYNAMO_TABLE}, (err,res) => {
+      const resp = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin' : '*'
+        }
+      };
+
 			if(err){
-				resolve({statusCode: 400, error: `Could not insert: ${err.stack}`});
+        resp['statusCode'] = 400;
+        resp['error'] = `Could not insert: ${err.stack}`;
+				resolve(resp);
 			}else{
 				resolve({statusCode: 201, body: ''});
+        resp['body'] = '';
+        resolve(resp);
 			}
 		});
 	});

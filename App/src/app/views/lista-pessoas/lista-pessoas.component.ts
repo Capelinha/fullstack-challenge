@@ -55,12 +55,10 @@ export class ListaPessoasComponent implements OnInit {
 
   onHoverGrafico(e) {
     this.pessoaSelecionada = this.pessoas[e.active[0]._index].id;
-    console.log(e);
   }
 
   onLeaveGrafico(e) {
     this.pessoaSelecionada = null;
-    console.log(e);
   }
 
 }

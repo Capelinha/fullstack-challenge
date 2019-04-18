@@ -10,7 +10,7 @@ import {map} from 'rxjs/operators';
 })
 export class PessoaService {
 
-  private readonly URL: string = 'https://k92gnvpow4.execute-api.us-east-2.amazonaws.com/beta/pessoa';
+  private readonly URL: string = 'https://gboywz8971.execute-api.us-east-1.amazonaws.com/dev/pessoas';
 
   constructor(private http: HttpClient) { }
 
