@@ -21,12 +21,54 @@ module.exports.getPessoas = async (event, context) => {
 	});
 };
 
+module.exports.getPessoa = async (event, context) => {
+  return await new Promise((resolve, reject) => {
+
+    const params = {
+      TableName: DYNAMO_TABLE,
+      Key: {
+        "id": event.pathParameters['id']
+      }
+    };
+
+    dynamoDb.get(params, (err,res) => {
+      if(err){
+        resolve({statusCode: 400, error: `Could not get data: ${err.stack}`});
+      }else{
+        resolve({statusCode: 200, body: JSON.stringify(res.Item)});
+      }
+    });
+  });
+};
+
 module.exports.postPessoa = async (event, context) => {
 	return await new Promise((resolve, reject) => {
 		let dados = JSON.parse(event.body);
 		dados['id'] = uuidv4();
 
-		dynamoDb.putItem({"Item" : dados, TableName: DYNAMO_TABLE}, (err,res) => {
+    const params = {
+      TableName: DYNAMO_TABLE,
+      ExpressionAttributeNames: {
+        "#id": "id",
+        "#nome": "nome",
+        "#sobrenome": "sobrenome",
+        "#participacao": "participacao"
+      },
+      ExpressionAttributeValues: {
+        ":id": dados['id'],
+        ":n": dados['nome'],
+        ":s": dados['sobrenome'],
+        ":p": dados['participacao']
+      },
+      Item: {
+        "#id" : ":id",
+        "#nome" : ":n",
+        "#sobrenome" : ":s",
+        "#participacao" : ":p"
+      }
+    };
+
+		dynamoDb.put({"Item" : dados, TableName: DYNAMO_TABLE}, (err,res) => {
 			if(err){
 				resolve({statusCode: 400, error: `Could not insert: ${err.stack}`});
 			}else{
@@ -61,7 +103,7 @@ module.exports.putPessoa = async (event, context) => {
 
 		};
 
-		dynamoDb.updateItem(params, (err,res) => {
+		dynamoDb.update(params, (err,res) => {
 			if(err){
 				resolve({statusCode: 400, error: `Could not update: ${err.stack}`});
 			}else{
@@ -73,7 +115,7 @@ module.exports.putPessoa = async (event, context) => {
 
 module.exports.deletePessoa = async (event, context) => {
 	return await new Promise((resolve, reject) => {
-		dynamoDb.deleteItem({ TableName : DYNAMO_TABLE, Key: { "id": event.pathParameters['id']}}, (err,res) => {
+		dynamoDb.delete({ TableName : DYNAMO_TABLE, Key: { "id": event.pathParameters['id']}}, (err,res) => {
 			if(err){
 				resolve({statusCode: 400, error: `Could not delete: ${err.stack}`});
 			}else{

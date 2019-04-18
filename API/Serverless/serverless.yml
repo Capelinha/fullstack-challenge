@@ -46,7 +46,7 @@ functions:
           method: get
           cors: true
   getPessoa:
-    handler: handler.getPessoas
+    handler: handler.getPessoa
     events:
       - http:
           path: pessoas/{id}
@@ -67,7 +67,7 @@ functions:
     handler: handler.putPessoa
     events:
       - http:
-          path: pessoas
+          path: pessoas/{id}
           method: put
           cors: true
           request:
