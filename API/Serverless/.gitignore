@@ -6,4 +6,5 @@ jspm_packages
 .serverless
 .idea
 
+/.idea
 /node_modules

@@ -39,14 +39,14 @@ provider:
 
 functions:
   getPessoas:
-    handler: handler.getPessoas
+    handler: src/getPessoas.getPessoas
     events:
       - http:
           path: pessoas
           method: get
           cors: true
   getPessoa:
-    handler: handler.getPessoa
+    handler: src/getPessoa.getPessoa
     events:
       - http:
           path: pessoas/{id}
@@ -57,14 +57,14 @@ functions:
                 paths:
                   id: true
   postPessoas:
-    handler: handler.postPessoa
+    handler: src/postPessoa.postPessoa
     events:
       - http:
           path: pessoas
           method: post
           cors: true
   putPessoa:
-    handler: handler.putPessoa
+    handler: src/putPessoa.putPessoa
     events:
       - http:
           path: pessoas/{id}
@@ -75,7 +75,7 @@ functions:
                 paths:
                   id: true
   deletePessoa:
-    handler: handler.deletePessoa
+    handler: src/deletePessoa.deletePessoa
     events:
       - http:
           path: pessoas/{id}
