@@ -1,5 +1,7 @@
 'use strict';
 
+const Response = require('./Response');
+
 const AWS = require('aws-sdk');
 const DYNAMO_TABLE = process.env.DYNAMO_TABLE;
 const AWS_DEPLOY_REGION = process.env.AWS_DEPLOY_REGION;
@@ -19,14 +21,10 @@ module.exports.getPessoas = async (event, context) => {
       };
 
 			if(err){
-        resp['statusCode'] = 400;
-        resp['error'] = `Could not list all data: ${err.stack}`;
-        resolve(resp);
+        resolve(Response.failure(err.message));
 			}else{
-        resp['statusCode'] = 200;
-        resp['body'] = JSON.stringify(res.Items);
-				resolve(resp);
+				resolve(Response.success(res.Items));
 			}
-		});			
+		});
 	});
 };

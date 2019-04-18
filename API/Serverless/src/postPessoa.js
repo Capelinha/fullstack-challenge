@@ -1,62 +1,37 @@
 'use strict';
 
+const Pessoa = require('./Pessoa');
+const Response = require('./Response');
+
 const AWS = require('aws-sdk');
 const DYNAMO_TABLE = process.env.DYNAMO_TABLE;
 const AWS_DEPLOY_REGION = process.env.AWS_DEPLOY_REGION;
 const dynamoDb = new AWS.DynamoDB.DocumentClient({
-    api_version: '2019-04-17',
-    region: AWS_DEPLOY_REGION
+  api_version: '2019-04-17',
+  region: AWS_DEPLOY_REGION
 });
 const uuidv4 = require('uuid/v4');
 
 module.exports.postPessoa = async (event, context) => {
-	return await new Promise((resolve, reject) => {
-		let dados = JSON.parse(event.body);
-		dados['id'] = uuidv4();
+  return await new Promise((resolve, reject) => {
+    let dados = JSON.parse(event.body);
 
-    const params = {
-      TableName: DYNAMO_TABLE,
-      ExpressionAttributeNames: {
-        "#id": "id",
-        "#nome": "nome",
-        "#sobrenome": "sobrenome",
-        "#participacao": "participacao"
-      },
-      ExpressionAttributeValues: {
-        ":id": dados['id'],
-        ":n": dados['nome'],
-        ":s": dados['sobrenome'],
-        ":p": dados['participacao']
-      },
-      Item: {
-        "#id" : ":id",
-        "#nome" : ":n",
-        "#sobrenome" : ":s",
-        "#participacao" : ":p"
-      }
-    };
+    const p = new Pessoa(dados);
+    const {valid, errors} = p.validate();
 
-		dynamoDb.put({"Item" : dados, TableName: DYNAMO_TABLE}, (err,res) => {
-      const resp = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin' : '*'
+    if (valid) {
+      dados['id'] = uuidv4();
+      dynamoDb.put({"Item": dados, TableName: DYNAMO_TABLE}, (err, res) => {
+
+        if (err) {
+          resolve(Response.failure(err.message));
+        } else {
+          resolve(Response.created());
         }
-      };
+      });
 
-			if(err){
-        resp['statusCode'] = 400;
-        resp['error'] = `Could not insert: ${err.stack}`;
-				resolve(resp);
-			}else{
-				resolve({statusCode: 201, body: ''});
-        resp['body'] = '';
-        resolve(resp);
-			}
-		});
-	});
+    } else {
+      resolve(Response.badRequest(errors));
+    }
+  });
 };
-
-
-
-

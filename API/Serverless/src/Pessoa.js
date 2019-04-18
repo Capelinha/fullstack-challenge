@@ -1,6 +1,10 @@
 const { attributes } = require('structure');
 
 const Pessoa = attributes({
+  id: {
+    type: String,
+    required: false
+  },
   nome: {
     type: String,
     minLength: 1,
