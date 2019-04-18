@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ListaPessoasComponent } from './Views/lista-pessoas/lista-pessoas.component';
-import { CadastroPessoasComponent } from './Views/cadastro-pessoas/cadastro-pessoas.component';
+import { ListaPessoasComponent } from './views/lista-pessoas/lista-pessoas.component';
+import { CadastroPessoasComponent } from './views/cadastro-pessoas/cadastro-pessoas.component';
 
 import {PessoaService} from './services/pessoa.service';
 import {HttpClientModule} from '@angular/common/http';
