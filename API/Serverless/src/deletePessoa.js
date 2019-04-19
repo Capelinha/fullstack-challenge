@@ -17,7 +17,7 @@ module.exports.deletePessoa = async (event, context) => {
 		  if(err){
 			  resolve(Response.failure(err.message));
 			}else{
-        if(res){
+        if(res.Attributes === undefined){
           resolve(Response.notFound());
         }else {
           resolve(Response.success());

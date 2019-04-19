@@ -13,13 +13,6 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 module.exports.getPessoas = async (event, context) => {
 	return await new Promise((resolve, reject) => {
 		dynamoDb.scan({ TableName: DYNAMO_TABLE}, (err,res) => {
-		  const resp = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin' : '*'
-        }
-      };
-
 			if(err){
         resolve(Response.failure(err.message));
 			}else{
