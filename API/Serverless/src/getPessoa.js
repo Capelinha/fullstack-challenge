@@ -24,7 +24,12 @@ module.exports.getPessoa = async (event, context) => {
         if(err){
           resolve(Response.failure(err.message));
         }else{
-          resolve(Response.success(res.Item));
+          if (res.Item !== undefined){
+            resolve(Response.success(res.Item));
+          }else{
+            resolve(Response.notFound())
+          }
+
         }
       });
 

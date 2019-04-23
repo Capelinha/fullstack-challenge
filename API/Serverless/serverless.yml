@@ -28,15 +28,6 @@ provider:
     DYNAMO_TABLE: pessoas
     AWS_DEPLOY_REGION: ${self:provider.region}
 
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
-
 functions:
   getPessoas:
     handler: src/getPessoas.getPessoas
@@ -100,9 +91,7 @@ resources:
           -
             AttributeName: id
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1 
+        BillingMode: PAY_PER_REQUEST
 
 plugins:
   - serverless-offline

@@ -12,11 +12,16 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 
 module.exports.deletePessoa = async (event, context) => {
 	return await new Promise((resolve, reject) => {
-		dynamoDb.delete({ TableName : DYNAMO_TABLE, Key: { "id": event.pathParameters['id']}}, (err,res) => {
-			if(err){
-				resolve(Response.failure(err.message));
+		dynamoDb.delete({ ReturnValues : "ALL_OLD" ,TableName : DYNAMO_TABLE, Key: { "id": event.pathParameters['id']}}, (err,res) => {
+
+		  if(err){
+			  resolve(Response.failure(err.message));
 			}else{
-				resolve(Response.success());
+        if(res.Attributes === undefined){
+          resolve(Response.notFound());
+        }else {
+          resolve(Response.success());
+        }
 			}
 		});
 	});

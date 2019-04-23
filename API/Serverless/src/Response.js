@@ -27,6 +27,7 @@ const build = (statusCode) => (body) => {
 };
 
 const badRequest = buildError(400);
+const notFound = buildError(404);
 const success = build(200);
 const created = build(201);
 const failure = build(500);
@@ -35,6 +36,7 @@ module.exports = {
   badRequest,
   success,
   created,
-  failure
+  failure,
+  notFound
 };
 

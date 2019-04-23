@@ -42,7 +42,11 @@ module.exports.putPessoa = async (event, context) => {
 
       dynamoDb.update(params, (err, res) => {
         if (err) {
-          resolve(Response.failure(err.message));
+          if(err.code === 'ConditionalCheckFailedException'){
+            resolve(Response.notFound());
+          }else{
+            resolve(Response.failure(err.message));
+          }
         } else {
           resolve(Response.success());
         }
